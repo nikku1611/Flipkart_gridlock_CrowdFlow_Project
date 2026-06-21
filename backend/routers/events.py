@@ -106,7 +106,18 @@ async def get_heatmap_data():
         "lat_round": "latitude", "lon_round": "longitude"
     }).to_dict(orient="records")
 
-    return {"points": points, "total_points": len(points)}
+    # Convert to native python types to prevent FastAPI 500 serialization error
+    cleaned_points = []
+    for p in points:
+        cleaned_points.append({
+            "latitude": float(p["latitude"]) if pd.notna(p["latitude"]) else 0.0,
+            "longitude": float(p["longitude"]) if pd.notna(p["longitude"]) else 0.0,
+            "event_count": int(p["event_count"]),
+            "zone": str(p["zone"]) if pd.notna(p["zone"]) else None,
+            "intensity": float(p["intensity"])
+        })
+
+    return {"points": cleaned_points, "total_points": len(cleaned_points)}
 
 
 @router.get("/stats")
