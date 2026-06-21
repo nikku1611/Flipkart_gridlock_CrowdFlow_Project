@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://flipkart-gridlock-crowdflow-project.onrender.com';
+const API_BASE = 'https://flipkart-gridlock-crowdflow-project.onrender.com';
 
 const api = axios.create({
   baseURL: API_BASE,
