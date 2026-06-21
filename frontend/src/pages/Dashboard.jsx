@@ -22,7 +22,7 @@ export default function Dashboard() {
         setStats(statsData)
         setHeatmap(heatmapData)
       } catch (err) {
-        setError('Failed to load dashboard data. Make sure the API server is running on port 8000.')
+        setError('Failed to load dashboard data. The backend server might be waking up (this can take up to 60 seconds).')
         console.error(err)
       } finally {
         setLoading(false)
