@@ -1,15 +1,14 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-:root {
+:root, [data-theme='dark'] {
   --bg-primary: #0a0e1a;
   --bg-secondary: #111827;
-  --bg-card: #1a1f35;
-  --bg-card-hover: #222845;
-  --border-color: #2a3150;
-  --text-primary: #e2e8f0;
+  --bg-card: rgba(17, 24, 39, 0.7);
+  --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+  --border-color: rgba(51, 65, 85, 0.5);
   --accent-blue: #3b82f6;
   --accent-cyan: #06b6d4;
   --accent-purple: #8b5cf6;
@@ -19,6 +18,44 @@
   --severity-critical: #ef4444;
   --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   --gradient-glow: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 100%);
+}
+
+[data-theme='light'] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: rgba(203, 213, 225, 0.5);
+  --accent-blue: #2563eb;
+  --accent-cyan: #0891b2;
+  --accent-purple: #7c3aed;
+  --severity-low: #16a34a;
+  --severity-medium: #ca8a04;
+  --severity-high: #ea580c;
+  --severity-critical: #dc2626;
+  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  --gradient-glow: linear-gradient(135deg, rgba(37,99,235,0.1) 0%, rgba(124,58,237,0.1) 100%);
+}
+
+[data-theme='cyberpunk'] {
+  --bg-primary: #050510;
+  --bg-secondary: #0a0a20;
+  --bg-card: rgba(10, 10, 32, 0.8);
+  --text-primary: #fcee0a;
+  --text-secondary: #ff003c;
+  --text-muted: #00f0ff;
+  --border-color: rgba(255, 0, 60, 0.4);
+  --accent-blue: #00f0ff;
+  --accent-cyan: #fcee0a;
+  --accent-purple: #ff003c;
+  --severity-low: #00ff9f;
+  --severity-medium: #fcee0a;
+  --severity-high: #ff8c00;
+  --severity-critical: #ff003c;
+  --gradient-primary: linear-gradient(135deg, #ff003c 0%, #00f0ff 100%);
+  --gradient-glow: linear-gradient(135deg, rgba(255,0,60,0.15) 0%, rgba(0,240,255,0.15) 100%);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

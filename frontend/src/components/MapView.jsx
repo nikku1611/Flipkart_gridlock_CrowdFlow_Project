@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export default function MapView({ heatmapPoints = [], markers = [], height = '400px', center = [12.9716, 77.5946], zoom = 12 }) {
+export default function MapView({ heatmapPoints = [], markers = [], height = '400px', center = [12.9716, 77.5946], zoom = 12, onMapClick }) {
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
 
@@ -38,6 +38,14 @@ export default function MapView({ heatmapPoints = [], markers = [], height = '40
         maxZoom: 19,
       }).addTo(map)
 
+      // Map Click Handler
+      if (onMapClick) {
+        map.on('click', (e) => {
+          onMapClick(e.latlng.lat, e.latlng.lng)
+        })
+        mapRef.current.style.cursor = 'crosshair'
+      }
+
       // Add heatmap points as circle markers
       heatmapPoints.forEach(point => {
         if (!point.latitude || !point.longitude) return
@@ -57,25 +65,43 @@ export default function MapView({ heatmapPoints = [], markers = [], height = '40
         )
       })
 
-      // Add individual markers
+      // Add individual markers with pulse effect for High/Critical severity
       markers.forEach(marker => {
         if (!marker.latitude || !marker.longitude) return
+        
         const severityColors = { Low: '#22c55e', Medium: '#eab308', High: '#f97316', Critical: '#ef4444' }
         const color = severityColors[marker.severity] || '#3b82f6'
 
-        L.circleMarker([marker.latitude, marker.longitude], {
-          radius: 8,
-          fillColor: color,
-          color: '#fff',
-          weight: 2,
-          opacity: 1,
-          fillOpacity: 0.8,
-        }).addTo(map).bindPopup(
-          `<div style="font-size:12px">
-            <strong>${marker.label || 'Event'}</strong><br/>
-            ${marker.description || ''}
-          </div>`
-        )
+        if (marker.severity === 'Critical' || marker.severity === 'High') {
+          // Use glowing pulse icon
+          const icon = L.divIcon({
+            className: 'custom-pulse-icon',
+            html: `<div style="width:16px;height:16px;background:${color};border-radius:50%;box-shadow:0 0 10px ${color};animation:pulse-red 1.5s infinite"></div>`,
+            iconSize: [16, 16],
+            iconAnchor: [8, 8]
+          })
+          L.marker([marker.latitude, marker.longitude], { icon }).addTo(map).bindPopup(
+            `<div style="font-size:12px">
+              <strong>${marker.label || 'Event'}</strong><br/>
+              ${marker.description || ''}
+            </div>`
+          )
+        } else {
+          // Normal circle marker
+          L.circleMarker([marker.latitude, marker.longitude], {
+            radius: 8,
+            fillColor: color,
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8,
+          }).addTo(map).bindPopup(
+            `<div style="font-size:12px">
+              <strong>${marker.label || 'Event'}</strong><br/>
+              ${marker.description || ''}
+            </div>`
+          )
+        }
       })
 
       // Fix map size issues
@@ -88,6 +114,7 @@ export default function MapView({ heatmapPoints = [], markers = [], height = '40
         mapInstanceRef.current = null
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [heatmapPoints, markers, center[0], center[1], zoom])
 
   return (

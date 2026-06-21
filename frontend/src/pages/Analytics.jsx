@@ -4,17 +4,12 @@ import { getHistoricalEvents } from '../api'
 export default function Analytics() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 
   const [filters, setFilters] = useState({
     zone: '', event_type: '', event_cause: ''
   })
-
-  useEffect(() => {
-    fetchEvents()
-  }, [page, filters])
 
   const fetchEvents = async () => {
     setLoading(true)
@@ -28,12 +23,18 @@ export default function Analytics() {
       })
       setEvents(data.events)
       setTotalPages(data.total_pages)
-    } catch (err) {
-      setError('Failed to fetch historical events')
+    } catch {
+      console.error('Failed to fetch historical events')
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchEvents()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, filters])
 
   const handleFilterChange = (key, val) => {
     setFilters(prev => ({ ...prev, [key]: val }))

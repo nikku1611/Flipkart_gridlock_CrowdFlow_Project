@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Predictor from './pages/Predictor'
@@ -13,8 +13,22 @@ const NAV_ITEMS = [
   { path: '/model', label: 'Model Info', icon: '🧠' },
 ]
 
+const THEMES = ['dark', 'light', 'cyberpunk']
+
 function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    const currentIndex = THEMES.indexOf(theme)
+    const nextTheme = THEMES[(currentIndex + 1) % THEMES.length]
+    setTheme(nextTheme)
+  }
 
   return (
     <Router>
@@ -66,14 +80,25 @@ function App() {
             ))}
           </nav>
 
-          {/* Collapse toggle */}
-          <div style={{ padding: '12px 8px', borderTop: '1px solid var(--border-color)' }}>
+          {/* Footer controls */}
+          <div style={{ padding: '12px 8px', borderTop: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <button
+              onClick={toggleTheme}
+              style={{
+                width: '100%', padding: '8px', borderRadius: 8, border: '1px solid var(--border-color)',
+                background: 'var(--bg-card)', color: 'var(--text-primary)',
+                cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              }}
+            >
+              <span>{theme === 'dark' ? '🌙' : theme === 'light' ? '☀️' : '🤖'}</span>
+              {!sidebarCollapsed && <span style={{ textTransform: 'capitalize' }}>{theme} Mode</span>}
+            </button>
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
               style={{
                 width: '100%', padding: '8px', borderRadius: 8, border: 'none',
-                background: 'var(--bg-card)', color: 'var(--text-secondary)',
-                cursor: 'pointer', fontSize: 14,
+                background: 'transparent', color: 'var(--text-secondary)',
+                cursor: 'pointer', fontSize: 13,
               }}
             >
               {sidebarCollapsed ? '→' : '← Collapse'}

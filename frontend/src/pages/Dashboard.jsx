@@ -3,9 +3,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 import { getDashboardStats, getHeatmapData } from '../api'
 import MapView from '../components/MapView'
 
-const SEVERITY_COLORS = { Low: '#22c55e', Medium: '#eab308', High: '#f97316', Critical: '#ef4444' }
-const CHART_COLORS = ['#3b82f6', '#8b5cf6', '#06b6d4', '#f97316', '#22c55e', '#ef4444', '#eab308', '#ec4899', '#14b8a6', '#f59e0b']
-
 export default function Dashboard() {
   const [stats, setStats] = useState(null)
   const [heatmap, setHeatmap] = useState(null)
@@ -97,17 +94,20 @@ export default function Dashboard() {
           </h3>
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={causeData} layout="vertical" margin={{ left: 100 }}>
+              <defs>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="var(--accent-blue)" stopOpacity={0.8}/>
+                  <stop offset="100%" stopColor="var(--accent-purple)" stopOpacity={1}/>
+                </linearGradient>
+              </defs>
               <XAxis type="number" tick={{ fontSize: 11 }} />
               <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={95} />
               <Tooltip
-                contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.2)', fontSize: 12 }}
                 itemStyle={{ color: 'var(--text-primary)' }}
+                cursor={{ fill: 'var(--bg-card)' }}
               />
-              <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]}>
-                {causeData.map((_, i) => (
-                  <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-                ))}
-              </Bar>
+              <Bar dataKey="value" fill="url(#barGradient)" radius={[0, 6, 6, 0]} animationDuration={1500} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -123,15 +123,15 @@ export default function Dashboard() {
           <ResponsiveContainer width="100%" height={200}>
             <AreaChart data={monthlyData}>
               <defs>
-                <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+                <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--accent-cyan)" stopOpacity={0.6} />
+                  <stop offset="100%" stopColor="var(--accent-cyan)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="name" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} />
-              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 12 }} />
-              <Area type="monotone" dataKey="value" stroke="#3b82f6" fill="url(#blueGradient)" strokeWidth={2} />
+              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.2)', fontSize: 12 }} />
+              <Area type="monotone" dataKey="value" stroke="var(--accent-cyan)" fill="url(#areaGradient)" strokeWidth={3} animationDuration={1500} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -143,10 +143,16 @@ export default function Dashboard() {
           </h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={hourlyData}>
+              <defs>
+                <linearGradient id="hourlyGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--accent-purple)" stopOpacity={1}/>
+                  <stop offset="100%" stopColor="var(--accent-purple)" stopOpacity={0.3}/>
+                </linearGradient>
+              </defs>
               <XAxis dataKey="hour" tick={{ fontSize: 9 }} interval={2} />
               <YAxis tick={{ fontSize: 10 }} />
-              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 12 }} />
-              <Bar dataKey="count" fill="#8b5cf6" radius={[2, 2, 0, 0]} />
+              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.2)', fontSize: 12 }} cursor={{ fill: 'var(--bg-card)' }} />
+              <Bar dataKey="count" fill="url(#hourlyGradient)" radius={[4, 4, 0, 0]} animationDuration={1500} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -158,19 +164,19 @@ export default function Dashboard() {
           </h3>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
-              <Pie data={priorityData} cx="50%" cy="50%" innerRadius={50} outerRadius={80}
-                dataKey="value" nameKey="name" paddingAngle={4}>
+              <Pie data={priorityData} cx="50%" cy="50%" innerRadius={55} outerRadius={80}
+                dataKey="value" nameKey="name" paddingAngle={6} animationDuration={1500}>
                 {priorityData.map((entry, i) => (
-                  <Cell key={i} fill={entry.name === 'High' ? '#ef4444' : '#22c55e'} />
+                  <Cell key={i} fill={entry.name === 'High' ? 'var(--severity-critical)' : 'var(--severity-low)'} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.2)', fontSize: 12 }} />
             </PieChart>
           </ResponsiveContainer>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 4 }}>
             {priorityData.map((entry, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: entry.name === 'High' ? '#ef4444' : '#22c55e' }} />
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: entry.name === 'High' ? 'var(--severity-critical)' : 'var(--severity-low)' }} />
                 <span style={{ color: 'var(--text-secondary)' }}>{entry.name}: {entry.value}</span>
               </div>
             ))}
@@ -185,14 +191,16 @@ export default function Dashboard() {
         </h3>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={zoneData}>
+            <defs>
+              <linearGradient id="zoneGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--accent-blue)" stopOpacity={1}/>
+                <stop offset="100%" stopColor="var(--accent-cyan)" stopOpacity={0.4}/>
+              </linearGradient>
+            </defs>
             <XAxis dataKey="name" tick={{ fontSize: 10 }} angle={-15} textAnchor="end" height={60} />
             <YAxis tick={{ fontSize: 10 }} />
-            <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 8, fontSize: 12 }} />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-              {zoneData.map((_, i) => (
-                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-              ))}
-            </Bar>
+            <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: 12, boxShadow: '0 4px 20px rgba(0,0,0,0.2)', fontSize: 12 }} cursor={{ fill: 'var(--bg-card)' }} />
+            <Bar dataKey="value" fill="url(#zoneGradient)" radius={[6, 6, 0, 0]} animationDuration={1500} />
           </BarChart>
         </ResponsiveContainer>
       </div>

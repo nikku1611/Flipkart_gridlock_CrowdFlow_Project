@@ -6,20 +6,22 @@ export default function ModelInfo() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    fetchMetrics()
-  }, [])
-
   const fetchMetrics = async () => {
     try {
       const data = await getModelMetrics()
       setMetrics(data)
-    } catch (err) {
+    } catch {
       setError('Failed to load model metrics. Models may not be trained yet.')
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchMetrics()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (loading) return <div style={{ padding: 40, textAlign: 'center' }}><div className="spinner" style={{ margin: '0 auto 16px auto' }} />Loading model metrics...</div>
   if (error) return <div style={{ padding: 40, textAlign: 'center', color: '#ef4444' }}>{error}</div>

@@ -35,12 +35,14 @@ export default function Predictor() {
     getPoliceStations().then(d => setStations(d.police_stations || [])).catch(() => {})
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e, formDataOverride) => {
+    if (e?.preventDefault) e.preventDefault()
+    const dataToSubmit = formDataOverride || form
+    
     setLoading(true)
     setError(null)
     try {
-      const result = await predictEventImpact(form)
+      const result = await predictEventImpact(dataToSubmit)
       setPrediction(result)
       setActiveTab('results')
 
@@ -48,11 +50,11 @@ export default function Predictor() {
       if (result.congestion_severity) {
         const divPlan = await getDiversionPlan({
           severity: result.congestion_severity.value,
-          latitude: form.latitude, longitude: form.longitude,
-          requires_road_closure: form.requires_road_closure,
-          event_cause: form.event_cause,
-          corridor: form.corridor, zone: form.zone,
-          police_station: form.police_station,
+          latitude: dataToSubmit.latitude, longitude: dataToSubmit.longitude,
+          requires_road_closure: dataToSubmit.requires_road_closure,
+          event_cause: dataToSubmit.event_cause,
+          corridor: dataToSubmit.corridor, zone: dataToSubmit.zone,
+          police_station: dataToSubmit.police_station,
           manpower_needed: result.required_manpower?.value || '3-5',
         })
         setDiversion(divPlan)
@@ -62,6 +64,28 @@ export default function Predictor() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleChaosMode = () => {
+    const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)]
+    
+    const newForm = {
+      ...form,
+      event_type: 'unplanned',
+      event_cause: randomItem(['accident', 'water_logging', 'protest', 'tree_fall']),
+      latitude: parseFloat((12.9716 + (Math.random() - 0.5) * 0.1).toFixed(4)),
+      longitude: parseFloat((77.5946 + (Math.random() - 0.5) * 0.1).toFixed(4)),
+      requires_road_closure: Math.random() > 0.5,
+      priority: 'Critical',
+      corridor: corridors.length ? randomItem(corridors) : 'Non-corridor',
+      zone: zones.length ? randomItem(zones) : 'Unknown',
+      police_station: stations.length ? randomItem(stations) : 'Cubbon Park',
+      veh_type: randomItem(['heavy_vehicle', 'private_bus', 'truck']),
+      description: 'CRITICAL SYSTEM SIMULATION: Unexpected high-impact incident detected.',
+    }
+    
+    setForm(newForm)
+    handleSubmit(null, newForm)
   }
 
   const updateField = (field, value) => setForm(prev => ({ ...prev, [field]: value }))
@@ -164,21 +188,31 @@ export default function Predictor() {
                   onChange={e => updateField('description', e.target.value)} />
               </FormField>
               {error && <div style={{ marginTop: 12, padding: 10, borderRadius: 8, background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', color: '#f87171', fontSize: 13 }}>{error}</div>}
-              <button type="submit" className="btn-primary" disabled={loading} style={{ marginTop: 20, width: '100%' }}>
-                {loading ? <><div className="spinner" /> Analyzing...</> : '⚡ Predict Impact'}
-              </button>
+              
+              <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
+                <button type="submit" className="btn-primary" disabled={loading} style={{ flex: 1 }}>
+                  {loading ? <><div className="spinner" /> Analyzing...</> : '⚡ Predict Impact'}
+                </button>
+                <button type="button" onClick={handleChaosMode} className="btn-primary" disabled={loading} style={{ background: 'var(--gradient-primary)', flex: 0.5, whiteSpace: 'nowrap' }}>
+                  🎲 Simulate Crisis
+                </button>
+              </div>
             </form>
           </div>
 
           {/* Map Preview */}
           <div className="glass-card" style={{ padding: 16 }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 12, color: 'var(--text-secondary)' }}>
-              📍 Event Location
+              📍 Event Location (Click map to set)
             </h3>
             <MapView
               height="500px"
               center={[form.latitude, form.longitude]}
               zoom={14}
+              onMapClick={(lat, lng) => {
+                updateField('latitude', parseFloat(lat.toFixed(4)))
+                updateField('longitude', parseFloat(lng.toFixed(4)))
+              }}
               markers={[{ latitude: form.latitude, longitude: form.longitude, label: 'Event Location', severity: 'High' }]}
             />
           </div>

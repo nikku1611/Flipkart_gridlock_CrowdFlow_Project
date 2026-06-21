@@ -1,4 +1,4 @@
-import React from 'react'
+// React not used
 
 export default function SeverityGauge({ severity, size = 120 }) {
   const normalizedSeverity = severity || 'Unknown'
