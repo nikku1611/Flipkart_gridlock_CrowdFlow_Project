@@ -1,0 +1,452 @@
+{
+  "time_to_resolution": {
+    "target": "time_to_resolution",
+    "task_type": "regression",
+    "best_algorithm": "XGBoost",
+    "results": {
+      "XGBoost": {
+        "cv_mean": -119.51765409031957,
+        "cv_std": 11.769602022519912,
+        "test_mae": 166.1203989414121,
+        "test_rmse": 435.4441137498055,
+        "test_r2": 0.0844088929833946,
+        "params": {
+          "n_estimators": 350,
+          "max_depth": 7,
+          "learning_rate": 0.022069294648016935,
+          "subsample": 0.9052523281912352,
+          "colsample_bytree": 0.6462614346972892,
+          "reg_alpha": 0.7432920793934553,
+          "reg_lambda": 7.908811197479194
+        }
+      },
+      "LightGBM": {
+        "cv_mean": -120.73564270889104,
+        "cv_std": 11.254216264171298,
+        "test_mae": 167.89841423408856,
+        "test_rmse": 437.5264830631943,
+        "test_r2": 0.0756309230546297,
+        "params": {
+          "n_estimators": 122,
+          "max_depth": 7,
+          "learning_rate": 0.08395463256960964,
+          "subsample": 0.6744327922517116,
+          "colsample_bytree": 0.7435663246894707,
+          "reg_alpha": 1.0821390938783053,
+          "reg_lambda": 0.054501415209034114
+        }
+      },
+      "CatBoost": {
+        "cv_mean": -119.9348896506646,
+        "cv_std": 10.326917400660124,
+        "test_mae": 170.88626976738118,
+        "test_rmse": 436.5929202290711,
+        "test_r2": 0.0795714203317105,
+        "params": {
+          "iterations": 443,
+          "depth": 6,
+          "learning_rate": 0.08865919669882111,
+          "l2_leaf_reg": 0.04492659942722084
+        }
+      }
+    },
+    "feature_columns": [
+      "latitude",
+      "longitude",
+      "endlatitude",
+      "endlongitude",
+      "start_end_distance_km",
+      "zone_freq",
+      "corridor_freq",
+      "junction_freq",
+      "police_station_freq",
+      "hour_of_day",
+      "day_of_week",
+      "is_weekend",
+      "month",
+      "day_of_month",
+      "season",
+      "is_peak_hour",
+      "is_festival_season",
+      "event_type",
+      "event_cause",
+      "road_closure",
+      "corridor",
+      "priority",
+      "zone",
+      "police_station",
+      "veh_type",
+      "event_type_x_cause",
+      "is_authenticated",
+      "has_cargo",
+      "is_hazmat",
+      "truck_age_bucket",
+      "breakdown_category",
+      "zone_events_7d",
+      "corridor_events_7d",
+      "zone_events_30d",
+      "corridor_events_30d",
+      "desc_has_rally",
+      "desc_has_vip",
+      "desc_has_festival",
+      "desc_has_accident",
+      "desc_has_fire",
+      "desc_has_protest",
+      "desc_has_waterlog"
+    ],
+    "train_samples": 2030,
+    "test_samples": 528
+  },
+  "congestion_severity": {
+    "target": "congestion_severity",
+    "task_type": "classification",
+    "best_algorithm": "LightGBM",
+    "results": {
+      "XGBoost": {
+        "cv_mean": 0.7535925138674885,
+        "cv_std": 0.07243482567296755,
+        "test_accuracy": 0.9174311926605505,
+        "test_f1_macro": 0.6688004088610003,
+        "test_f1_weighted": 0.9148416768316454,
+        "confusion_matrix": [
+          [
+            0,
+            8,
+            0,
+            0
+          ],
+          [
+            0,
+            107,
+            0,
+            28
+          ],
+          [
+            0,
+            0,
+            503,
+            41
+          ],
+          [
+            0,
+            10,
+            48,
+            890
+          ]
+        ],
+        "params": {
+          "n_estimators": 375,
+          "max_depth": 8,
+          "learning_rate": 0.019919087129184394,
+          "subsample": 0.9903991733382573,
+          "colsample_bytree": 0.9134257872134885,
+          "reg_alpha": 0.05866079730122653,
+          "reg_lambda": 0.006225144522354605
+        }
+      },
+      "LightGBM": {
+        "cv_mean": 0.7706014050028107,
+        "cv_std": 0.0628760377875179,
+        "test_accuracy": 0.9394495412844037,
+        "test_f1_macro": 0.6914789052690893,
+        "test_f1_weighted": 0.9371398732832215,
+        "confusion_matrix": [
+          [
+            0,
+            8,
+            0,
+            0
+          ],
+          [
+            0,
+            116,
+            0,
+            19
+          ],
+          [
+            0,
+            0,
+            533,
+            11
+          ],
+          [
+            0,
+            7,
+            54,
+            887
+          ]
+        ],
+        "params": {
+          "n_estimators": 183,
+          "max_depth": 3,
+          "learning_rate": 0.07668488970516278,
+          "subsample": 0.9300696211221307,
+          "colsample_bytree": 0.9519196107432901,
+          "reg_alpha": 0.0781923613802549,
+          "reg_lambda": 0.04052371281484727
+        }
+      },
+      "CatBoost": {
+        "cv_mean": 0.8589256927789988,
+        "cv_std": 0.04382316375707739,
+        "test_accuracy": 0.9296636085626911,
+        "test_f1_macro": 0.6907845373528494,
+        "test_f1_weighted": 0.9273611888569538,
+        "confusion_matrix": [
+          [
+            0,
+            8,
+            0,
+            0
+          ],
+          [
+            0,
+            117,
+            0,
+            18
+          ],
+          [
+            0,
+            0,
+            509,
+            35
+          ],
+          [
+            0,
+            0,
+            54,
+            894
+          ]
+        ],
+        "params": {
+          "iterations": 309,
+          "depth": 6,
+          "learning_rate": 0.07860341919369224,
+          "l2_leaf_reg": 0.004221262446930739
+        }
+      }
+    },
+    "feature_columns": [
+      "latitude",
+      "longitude",
+      "endlatitude",
+      "endlongitude",
+      "start_end_distance_km",
+      "zone_freq",
+      "corridor_freq",
+      "junction_freq",
+      "police_station_freq",
+      "hour_of_day",
+      "day_of_week",
+      "is_weekend",
+      "month",
+      "day_of_month",
+      "season",
+      "is_peak_hour",
+      "is_festival_season",
+      "event_type",
+      "event_cause",
+      "road_closure",
+      "corridor",
+      "priority",
+      "zone",
+      "police_station",
+      "veh_type",
+      "event_type_x_cause",
+      "is_authenticated",
+      "has_cargo",
+      "is_hazmat",
+      "truck_age_bucket",
+      "breakdown_category",
+      "zone_events_7d",
+      "corridor_events_7d",
+      "zone_events_30d",
+      "corridor_events_30d",
+      "desc_has_rally",
+      "desc_has_vip",
+      "desc_has_festival",
+      "desc_has_accident",
+      "desc_has_fire",
+      "desc_has_protest",
+      "desc_has_waterlog"
+    ],
+    "train_samples": 6538,
+    "test_samples": 1635
+  },
+  "required_manpower": {
+    "target": "required_manpower",
+    "task_type": "classification",
+    "best_algorithm": "XGBoost",
+    "results": {
+      "XGBoost": {
+        "cv_mean": 0.8496618765157015,
+        "cv_std": 0.05121146965906927,
+        "test_accuracy": 0.9785932721712538,
+        "test_f1_macro": 0.6813696678951158,
+        "test_f1_weighted": 0.9757533497359735,
+        "confusion_matrix": [
+          [
+            1456,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            7,
+            0
+          ],
+          [
+            15,
+            0,
+            133,
+            0
+          ],
+          [
+            0,
+            0,
+            12,
+            10
+          ]
+        ],
+        "params": {
+          "n_estimators": 352,
+          "max_depth": 6,
+          "learning_rate": 0.01830938210941921,
+          "subsample": 0.9435452752875325,
+          "colsample_bytree": 0.9265532796173264,
+          "reg_alpha": 0.04136016346096114,
+          "reg_lambda": 0.012320347307480575
+        }
+      },
+      "LightGBM": {
+        "cv_mean": 0.8408425273321936,
+        "cv_std": 0.08542476891741171,
+        "test_accuracy": 0.9779816513761468,
+        "test_f1_macro": 0.6248848122866895,
+        "test_f1_weighted": 0.9743325296677835,
+        "confusion_matrix": [
+          [
+            1457,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            8,
+            0
+          ],
+          [
+            16,
+            0,
+            132,
+            0
+          ],
+          [
+            0,
+            0,
+            12,
+            10
+          ]
+        ],
+        "params": {
+          "n_estimators": 141,
+          "max_depth": 6,
+          "learning_rate": 0.09709251231561054,
+          "subsample": 0.8942606206067516,
+          "colsample_bytree": 0.9624360893218938,
+          "reg_alpha": 0.07050485207928531,
+          "reg_lambda": 0.8163232419946254
+        }
+      },
+      "CatBoost": {
+        "cv_mean": 0.8842559838041509,
+        "cv_std": 0.032540400150976805,
+        "test_accuracy": 0.9773700305810398,
+        "test_f1_macro": 0.6746832450515262,
+        "test_f1_weighted": 0.9745200367310694,
+        "confusion_matrix": [
+          [
+            1456,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            7,
+            0
+          ],
+          [
+            16,
+            0,
+            131,
+            1
+          ],
+          [
+            0,
+            0,
+            12,
+            10
+          ]
+        ],
+        "params": {
+          "iterations": 374,
+          "depth": 4,
+          "learning_rate": 0.08836987641149681,
+          "l2_leaf_reg": 0.011385355832349876
+        }
+      }
+    },
+    "feature_columns": [
+      "latitude",
+      "longitude",
+      "endlatitude",
+      "endlongitude",
+      "start_end_distance_km",
+      "zone_freq",
+      "corridor_freq",
+      "junction_freq",
+      "police_station_freq",
+      "hour_of_day",
+      "day_of_week",
+      "is_weekend",
+      "month",
+      "day_of_month",
+      "season",
+      "is_peak_hour",
+      "is_festival_season",
+      "event_type",
+      "event_cause",
+      "road_closure",
+      "corridor",
+      "priority",
+      "zone",
+      "police_station",
+      "veh_type",
+      "event_type_x_cause",
+      "is_authenticated",
+      "has_cargo",
+      "is_hazmat",
+      "truck_age_bucket",
+      "breakdown_category",
+      "zone_events_7d",
+      "corridor_events_7d",
+      "zone_events_30d",
+      "corridor_events_30d",
+      "desc_has_rally",
+      "desc_has_vip",
+      "desc_has_festival",
+      "desc_has_accident",
+      "desc_has_fire",
+      "desc_has_protest",
+      "desc_has_waterlog"
+    ],
+    "train_samples": 6538,
+    "test_samples": 1635
+  }
+}

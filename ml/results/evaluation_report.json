@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-06-21T17:29:51.606116",
+  "targets": {
+    "time_to_resolution": {
+      "task_type": "regression",
+      "best_algorithm": "XGBoost",
+      "algorithms": {
+        "XGBoost": {
+          "cv_mean": -119.51765409031957,
+          "cv_std": 11.769602022519912,
+          "test_mae": 166.1203989414121,
+          "test_rmse": 435.4441137498055,
+          "test_r2": 0.0844088929833946
+        },
+        "LightGBM": {
+          "cv_mean": -120.73564270889104,
+          "cv_std": 11.254216264171298,
+          "test_mae": 167.89841423408856,
+          "test_rmse": 437.5264830631943,
+          "test_r2": 0.0756309230546297
+        },
+        "CatBoost": {
+          "cv_mean": -119.9348896506646,
+          "cv_std": 10.326917400660124,
+          "test_mae": 170.88626976738118,
+          "test_rmse": 436.5929202290711,
+          "test_r2": 0.0795714203317105
+        }
+      }
+    },
+    "congestion_severity": {
+      "task_type": "classification",
+      "best_algorithm": "LightGBM",
+      "algorithms": {
+        "XGBoost": {
+          "cv_mean": 0.7535925138674885,
+          "cv_std": 0.07243482567296755,
+          "test_accuracy": 0.9174311926605505,
+          "test_f1_macro": 0.6688004088610003,
+          "test_f1_weighted": 0.9148416768316454
+        },
+        "LightGBM": {
+          "cv_mean": 0.7706014050028107,
+          "cv_std": 0.0628760377875179,
+          "test_accuracy": 0.9394495412844037,
+          "test_f1_macro": 0.6914789052690893,
+          "test_f1_weighted": 0.9371398732832215
+        },
+        "CatBoost": {
+          "cv_mean": 0.8589256927789988,
+          "cv_std": 0.04382316375707739,
+          "test_accuracy": 0.9296636085626911,
+          "test_f1_macro": 0.6907845373528494,
+          "test_f1_weighted": 0.9273611888569538
+        }
+      }
+    },
+    "required_manpower": {
+      "task_type": "classification",
+      "best_algorithm": "XGBoost",
+      "algorithms": {
+        "XGBoost": {
+          "cv_mean": 0.8496618765157015,
+          "cv_std": 0.05121146965906927,
+          "test_accuracy": 0.9785932721712538,
+          "test_f1_macro": 0.6813696678951158,
+          "test_f1_weighted": 0.9757533497359735
+        },
+        "LightGBM": {
+          "cv_mean": 0.8408425273321936,
+          "cv_std": 0.08542476891741171,
+          "test_accuracy": 0.9779816513761468,
+          "test_f1_macro": 0.6248848122866895,
+          "test_f1_weighted": 0.9743325296677835
+        },
+        "CatBoost": {
+          "cv_mean": 0.8842559838041509,
+          "cv_std": 0.032540400150976805,
+          "test_accuracy": 0.9773700305810398,
+          "test_f1_macro": 0.6746832450515262,
+          "test_f1_weighted": 0.9745200367310694
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "method": "shap",
+  "features": {
+    "event_cause": 0.3471449911594391,
+    "is_authenticated": 0.2950645685195923,
+    "event_type_x_cause": 0.17482906579971313,
+    "zone_events_30d": 0.06429360061883926,
+    "corridor_events_30d": 0.062003105878829956,
+    "hour_of_day": 0.05563797801733017,
+    "corridor_events_7d": 0.0552058108150959,
+    "police_station": 0.046929631382226944,
+    "veh_type": 0.04400819167494774,
+    "police_station_freq": 0.03938406705856323,
+    "longitude": 0.03813432529568672,
+    "zone_events_7d": 0.03696991503238678,
+    "endlongitude": 0.0335661880671978,
+    "latitude": 0.03048591874539852,
+    "day_of_month": 0.030368631705641747
+  }
+}

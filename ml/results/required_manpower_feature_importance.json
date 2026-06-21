@@ -1,0 +1,20 @@
+{
+  "method": "shap",
+  "features": {
+    "road_closure": 0.6043893694877625,
+    "event_type_x_cause": 0.22972097992897034,
+    "event_cause": 0.15450704097747803,
+    "priority": 0.1382220834493637,
+    "veh_type": 0.11156109720468521,
+    "start_end_distance_km": 0.09456384927034378,
+    "corridor_freq": 0.08273398876190186,
+    "junction_freq": 0.06100841239094734,
+    "corridor_events_7d": 0.05782049149274826,
+    "hour_of_day": 0.033186621963977814,
+    "corridor": 0.025192905217409134,
+    "corridor_events_30d": 0.017625827342271805,
+    "longitude": 0.016132120043039322,
+    "day_of_month": 0.014471273869276047,
+    "police_station": 0.014337305910885334
+  }
+}
